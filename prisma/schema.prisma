@@ -30,7 +30,7 @@ model Component {
   name String   
   price Int
 
-  socket String
+  socket String?
 
   buildComponents BuildComponent[]
 } 
@@ -61,4 +61,26 @@ model BuildComponent {
   component Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
 
   @@unique([buildId, componentId])
+}
+
+model Like {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId], references: [id], onDelete: Cascade)
+
+  buildId String
+  build Build @relation(fields:[buildId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, buildId])
+}
+
+enum ComponentType {
+  cpu
+  gpu
+  ram
+  ssd
+  motherboard
+  psu
+  case
+  cooler
 }
